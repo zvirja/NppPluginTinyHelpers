@@ -90,12 +90,6 @@ bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey 
 }
 
 
-
-void AboutDlg()
-{
-	::MessageBox(nullptr, L"This plugin was develped by Alex Povar!", L"XML Uncommeter", MB_OK);
-}
-
 void showAboutDialog()
 {
 	::MessageBox(nullptr, L"This plugin calls the 'Uncomment Block'cCommand of NPP. The main purpose is to allow users to use the shortcut (there is no way to set shortcut for the default command).\r\nWas develped by Alex Povar.", L"Block Uncomment runner", MB_OK);
