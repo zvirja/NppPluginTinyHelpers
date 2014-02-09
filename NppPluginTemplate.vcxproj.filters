@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NppPluginDemo.cpp">
+    <ClCompile Include="PluginDefinition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PluginDefinition.cpp">
+    <ClCompile Include="NppPluginEntryPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
