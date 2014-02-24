@@ -28,7 +28,7 @@
 //-------------------------------------//
 // Here define your plugin name
 //
-const TCHAR NPP_PLUGIN_NAME[] = L"Block Uncomment runner";
+const TCHAR NPP_PLUGIN_NAME[] = L"Tiny Helpers";
 
 //-----------------------------------------------//
 //-- STEP 2. DEFINE YOUR PLUGIN COMMAND NUMBER --//
@@ -36,7 +36,7 @@ const TCHAR NPP_PLUGIN_NAME[] = L"Block Uncomment runner";
 //
 // Here define the number of your plugin commands
 //
-const int nbFunc = 2;
+const int nbFunc = 3;
 
 
 //
@@ -76,5 +76,6 @@ bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey 
 //
 void showAboutDialog();
 void performBlockCommentToggle();
+void performReloadScrollToEnd();
 
 #endif //PLUGINDEFINITION_H

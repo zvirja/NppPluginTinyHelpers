@@ -22,7 +22,7 @@
     <ProjectGuid>{1590D7CD-7D3A-4AB7-A355-EE02F7FB987D}</ProjectGuid>
     <RootNamespace>NppPluginTemplate</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>BlockUncommentRunner</ProjectName>
+    <ProjectName>TinyHelpers</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|Win32'" Label="Configuration">
@@ -147,7 +147,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)BlockUncommentRunner.dll</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -156,7 +156,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)$(OutDir)BlockUncommentRunner.dll" "C:\Program Files (x86)\Notepad++\plugins\BlockUncommentRunner.dll" /Y</Command>
+      <Command>copy "$(ProjectDir)$(OutDir)$(ProjectName).dll" "C:\Program Files (x86)\Notepad++\plugins\$(ProjectName).dll" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|Win32'">
@@ -173,7 +173,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)BlockUncommentRunner_Debug.dll</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)_Debug.dll</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)NppPluginTemplate.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -181,7 +181,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)$(OutDir)BlockUncommentRunner_Debug.dll" "C:\Program Files (x86)\Notepad++\plugins\BlockUncommentRunner_Debug.dll" /Y</Command>
+      <Command>copy "$(ProjectDir)$(OutDir)$(ProjectName)_Debug.dll" "C:\Program Files (x86)\Notepad++\plugins\$(ProjectName)_Debug.dll" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

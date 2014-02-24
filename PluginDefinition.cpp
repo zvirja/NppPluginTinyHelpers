@@ -56,9 +56,10 @@ void commandMenuInit()
 	//toggleShortcut->_isAlt = true;
 	toggleShortcut->_key = 0x51; //VK_Q
 	setCommand(0, L"Block Uncomment", performBlockCommentToggle, toggleShortcut.get(), false);
+	setCommand(1, L"Reload and go to end", performReloadScrollToEnd, nullptr, false);
 
 
-	setCommand(1, L"About", showAboutDialog, nullptr, false);
+	setCommand(2, L"About", showAboutDialog, nullptr, false);
 }
 
 //
@@ -92,10 +93,27 @@ bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey 
 
 void showAboutDialog()
 {
-	::MessageBox(nullptr, L"This plugin calls the 'Uncomment Block'cCommand of NPP. The main purpose is to allow users to use the shortcut (there is no way to set shortcut for the default command).\r\nWas develped by Alex Povar.", L"Block Uncomment runner", MB_OK);
+	::MessageBox(nullptr, L"This plugin contains a few tiny commands:\
+\r\n\
+\r\n1. Proxy command 'Uncomment Block' which just call same command of NPP. The main purpose is to allow users to use the shortcut (there is no way to set shortcut for the default command).\
+\r\n2. 'Reload and go to end' command which reloads file and just scrolls to the document end.\
+\r\n\
+\r\nWas develped by Alex Povar.", L"Block Uncomment runner", MB_OK);
 }
 
 void performBlockCommentToggle()
 {
 	::SendMessage(nppData._nppHandle, NPPM_MENUCOMMAND, 0, IDM_EDIT_BLOCK_UNCOMMENT);
+}
+
+void performReloadScrollToEnd()
+{
+	//Get active document
+	int activeScintillaRes;
+	::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, (WPARAM)0, (LPARAM)&activeScintillaRes);
+	HWND activeScintilla = activeScintillaRes == 0 ? nppData._scintillaMainHandle : nppData._scintillaSecondHandle;
+
+	//Send reload & scroll to end messages
+	::SendMessage(nppData._nppHandle, NPPM_MENUCOMMAND, 0, IDM_FILE_RELOAD);
+	::SendMessage(activeScintilla, SCI_DOCUMENTEND, 0, 0);
 }
