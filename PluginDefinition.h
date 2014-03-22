@@ -22,6 +22,7 @@
 // All difinitions of plugin interface
 //
 #include "PluginInterface.h"
+#include "TabIndentsNormalizer.h"
 
 //-------------------------------------//
 //-- STEP 1. DEFINE YOUR PLUGIN NAME --//
@@ -36,7 +37,7 @@ const TCHAR NPP_PLUGIN_NAME[] = L"Tiny Helpers";
 //
 // Here define the number of your plugin commands
 //
-const int nbFunc = 3;
+const int nbFunc = 4;
 
 
 //
@@ -77,5 +78,6 @@ bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey 
 void showAboutDialog();
 void performBlockCommentToggle();
 void performReloadScrollToEnd();
+void performTabIndentNormalization();
 
 #endif //PLUGINDEFINITION_H

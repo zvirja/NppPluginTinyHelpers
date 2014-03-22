@@ -187,6 +187,7 @@
   <ItemGroup>
     <ClCompile Include="NppPluginEntryPoint.cpp" />
     <ClCompile Include="PluginDefinition.cpp" />
+    <ClCompile Include="TabIndentsNormalizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="menuCmdID.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="PluginInterface.h" />
     <ClInclude Include="DockingFeature\resource.h" />
     <ClInclude Include="Scintilla.h" />
+    <ClInclude Include="TabIndentsNormalizer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

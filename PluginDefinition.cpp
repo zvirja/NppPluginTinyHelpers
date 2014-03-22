@@ -53,13 +53,14 @@ void commandMenuInit()
 	toggleShortcut = std::make_unique<ShortcutKey>();
 	toggleShortcut->_isCtrl = true;
 	//toggleShortcut->_isShift = true;
-	//toggleShortcut->_isAlt = true;
+	//toggleShortcut->_isAlt = true; 
 	toggleShortcut->_key = 0x51; //VK_Q
 	setCommand(0, L"Block Uncomment", performBlockCommentToggle, toggleShortcut.get(), false);
 	setCommand(1, L"Reload and go to end", performReloadScrollToEnd, nullptr, false);
+	setCommand(2, L"Normalize lines indents", performTabIndentNormalization, nullptr, false);
 
 
-	setCommand(2, L"About", showAboutDialog, nullptr, false);
+	setCommand(3, L"About", showAboutDialog, nullptr, false);
 }
 
 //
@@ -97,8 +98,9 @@ void showAboutDialog()
 \r\n\
 \r\n1. Proxy command 'Uncomment Block' which just call same command of NPP. The main purpose is to allow users to use the shortcut (there is no way to set shortcut for the default command).\
 \r\n2. 'Reload and go to end' command which reloads file and just scrolls to the document end.\
+\r\n3. 'Normalize lines indents' command which normalizes line indents. All the lines will the same indents will be normalized to 2*(number of indent). \
 \r\n\
-\r\nWas develped by Alex Povar.", L"Block Uncomment runner", MB_OK);
+\r\nWas develped by Alex Povar.", L"NPP Tiny Helpers", MB_OK);
 }
 
 void performBlockCommentToggle()
@@ -117,3 +119,40 @@ void performReloadScrollToEnd()
 	::SendMessage(nppData._nppHandle, NPPM_MENUCOMMAND, 0, IDM_FILE_RELOAD);
 	::SendMessage(activeScintilla, SCI_DOCUMENTEND, 0, 0);
 }
+
+void performTabIndentNormalization()
+{
+	//Get active document
+	int activeScintillaRes;
+	::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, (WPARAM)0, (LPARAM)&activeScintillaRes);
+	HWND activeScintilla = activeScintillaRes == 0 ? nppData._scintillaMainHandle : nppData._scintillaSecondHandle;
+
+	long tabWidth = ::SendMessage(activeScintilla, SCI_GETTABWIDTH, 0, 0);
+	long allTextLen = ::SendMessage(activeScintilla, SCI_GETLENGTH, 0, 0);
+
+	if (allTextLen == 0)
+		return;
+
+	std::unique_ptr<char[]> allTextBuff(new char[allTextLen + 1]);
+	::SendMessage(activeScintilla, SCI_GETTEXT, allTextLen + 1, reinterpret_cast<LPARAM>(allTextBuff.get()));
+	
+	TabIndentsNormalizer indentsFixer = TabIndentsNormalizer(static_cast<int>(tabWidth), std::move(allTextBuff), allTextLen);
+
+	//Get text fix fixed indents
+	std::vector<char> normalizedText = indentsFixer.GetTextWithNormalizedIndents();
+
+	//Add final null character
+	if (normalizedText.size() > 0)
+	{
+		char finalChar = normalizedText.at(normalizedText.size() - 1);
+		if (finalChar != '\0')
+		{
+			normalizedText.push_back('\0');
+		}
+	}
+
+	::SendMessage(activeScintilla, SCI_BEGINUNDOACTION, 0, 0);
+	::SendMessage(activeScintilla, SCI_SETTEXT, 0, reinterpret_cast<LPARAM>(normalizedText.data()));
+	::SendMessage(activeScintilla, SCI_ENDUNDOACTION, 0, 0);
+}
+
